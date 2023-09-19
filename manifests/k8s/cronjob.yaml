@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-psql-s3-backup
+spec:
+  schedule: "0 3 * * *"
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: my-psql-s3-backup
+            image: ps3ql:1.0.0
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: S3_ACCESS_KEY
+            - name: S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: S3_SECRET_KEY
+            - name: PSQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: PSQL_USERNAME
+            - name: PSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: PSQL_PASSWORD
+            - name: PSQL_BACKUP_NAME
+              value: "my-psql-backup"
+            - name: PSQL_ADDRESS
+              value: "psql.svc.cluster.local"
+            - name: PSQL_PORT
+              value: "5432"
+            - name: PSQL_DB
+              value: "my_db"
+            - name: BUCKET_NAME
+              value: my-bucket
+            - name: S3CFG_PATH
+              value: "/home/worker/my-s3config"
+            - name: S3_HOST_BASE
+              value: "ams3.digitaloceanspaces.com"
+            - name: S3_HOST_BUCKET
+              value: "%(bucket)s.ams3.digitaloceanspaces.com"
+          restartPolicy: OnFailure

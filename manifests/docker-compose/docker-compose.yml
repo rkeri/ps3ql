@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  my-ps3ql-backup:
+    image: my-ps3ql-backup:1.0.0
+    environment:
+      S3_ACCESS_KEY: <insert-value-here>
+      S3_SECRET_KEY: <insert-value-here>
+      PSQL_BACKUP_NAME: <insert-value-here>
+      PSQL_ADDRESS: <insert-value-here>
+      PSQL_PORT: <insert-value-here>
+      PSQL_DB: <insert-value-here>
+      PSQL_USERNAME: <insert-value-here>
+      PSQL_PASSWORD: <insert-value-here>
+      BUCKET_NAME: <insert-value-here>
+      S3CFG_PATH: <insert-value-here>
+      S3_HOST_BASE: <insert-value-here>
+      S3_HOST_BUCKET: <insert-value-here>
