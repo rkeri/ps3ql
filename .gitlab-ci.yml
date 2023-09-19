@@ -3,9 +3,6 @@ stages:
   - lint
   - build
 
-variables:
-  DOCKERHUB_URL: dockerhub.icellmobilsoft.hu
-
 .kaniko-config:
   before_script:
     - 'echo "{\"auths\": {\"${DOCKERHUB_URL}\": {\"auth\": \"${DOCKER_AUTH}\"}}}" > /kaniko/.docker/config.json'
